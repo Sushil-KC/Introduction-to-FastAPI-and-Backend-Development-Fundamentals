@@ -9,3 +9,5 @@ def get_shipment():
         "content": "Sushil KC",
         "status": "In transit"
     }
+
+# Run User: fastapi dev
