@@ -98,9 +98,12 @@ def submit_shipment(data: dict) ->dict[str, Any]:
     }
     return {"id": new_id}
 
-
-
-
+# Path & Query Parameters
+@app.get('/shipment/{field}')
+def get_shipment_field(field: str, id:int)->dict[str, Any]:
+    return {
+        field: shipments[id][field]
+    }
 
 
 
