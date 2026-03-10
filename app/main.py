@@ -61,8 +61,13 @@ def get_shipment_with_params(id: int) -> dict[str, str | int]:
 # @app.get("/items/latest")
 # @app.get("/items/{item_id}")
 
-
-
+# Query Parameters
+@app.get('/shipments')
+def get_query_params(id: int) -> dict[str, str | int]:
+    print("Sushil")
+    if id not in shipments:
+        return {"details": "Id doesnot exists"}
+    return shipments[id]
 
 
 
