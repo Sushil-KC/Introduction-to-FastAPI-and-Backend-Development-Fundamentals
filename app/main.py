@@ -2,6 +2,9 @@
 from fastapi import FastAPI, status, HTTPException
 from scalar_fastapi import get_scalar_api_reference
 from typing import Any
+from schemas import Shipment
+
+
 app = FastAPI()
 
 # Sample shipment database with 20 diverse records
@@ -87,14 +90,14 @@ def get_query_params(id: int) -> dict[str, str | int]:
 
 # Request Body
 @app.post('/shipment')
-def submit_shipment(data: dict) ->dict[str, Any]:
-    if data['weight'] > 25:
+def submit_shipment(shipment: Shipment) ->dict[str, Any]:
+    if shipment.weight > 25:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Weight is less than 25")
     new_id = max(shipments.keys()) +1
     shipments[new_id]={
-        "content": data['content'],
-        "weight": data['weight'],
-        "status": data['status']
+        "content": shipment.content,
+        "weight": shipment.weight,
+        "status": shipment.status
     }
     return {"id": new_id}
 
