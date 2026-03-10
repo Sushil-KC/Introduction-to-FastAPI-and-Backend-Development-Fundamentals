@@ -73,19 +73,30 @@ def get_query_params(id: int) -> dict[str, str | int]:
     return shipments[id]
 
 # POST Method
+# @app.post('/shipment')
+# def submit_shipment(content: str, weight: float) ->dict[str, Any]:
+#     if weight > 25:
+#         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Weight is less than 25")
+#     new_id = max(shipments.keys()) +1
+#     shipments[new_id]={
+#         "content": content,
+#         "weight": weight,
+#         "status": "Placed"
+#     }
+#     return {"id": new_id}
+
+# Request Body
 @app.post('/shipment')
-def submit_shipment(content: str, weight: float) ->dict[str, Any]:
-    if weight > 25:
+def submit_shipment(data: dict) ->dict[str, Any]:
+    if data['weight'] > 25:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Weight is less than 25")
     new_id = max(shipments.keys()) +1
     shipments[new_id]={
-        "content": content,
-        "weight": weight,
-        "status": "Placed"
+        "content": data['content'],
+        "weight": data['weight'],
+        "status": data['status']
     }
     return {"id": new_id}
-
-
 
 
 
