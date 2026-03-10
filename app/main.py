@@ -117,12 +117,33 @@ def shipment_update(id: int, content: str, weight: float, status: str)->dict[str
 
 
 
+# @app.patch('/shipment')
+# def patch_shipment(id: int, content: str | None=None, weight: float | None=None, status: str | None=None):
+#     shipment = shipments[id]
+#     # update the provide Fields
+#     if content:
+#         shipment["content"] = content
+#     if weight:
+#         shipment["weight"] = weight
+#     if status:
+#         shipment["status"] = status
+    
+#     shipments[id] = shipment
+#     return shipment
 
 
+# @app.patch('/shipment')
+# def patch_shipment(id: int, body: dict[str, Any]):
+#     shipment = shipments[id]
+#     # update the provide Fields
+#     shipment.update(body)
+#     shipments[id] = shipment
+#     return shipment
 
-
-
-
+@app.delete("/shipment")
+def delete_shipment(id: int) ->dict[str, Any]:
+    shipments.pop(id)
+    return {"detail": f"Shipment with id {id} is deleted"}
 
 @app.get("/scalar", include_in_schema=False)
 def get_scalar_docs():
