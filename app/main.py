@@ -1,5 +1,5 @@
 
-from fastapi import FastAPI
+from fastapi import FastAPI, status, HTTPException
 from scalar_fastapi import get_scalar_api_reference
 app = FastAPI()
 
@@ -62,11 +62,13 @@ def get_shipment_with_params(id: int) -> dict[str, str | int]:
 # @app.get("/items/{item_id}")
 
 # Query Parameters
-@app.get('/shipments')
+@app.get('/shipments', )
 def get_query_params(id: int) -> dict[str, str | int]:
     print("Sushil")
     if id not in shipments:
-        return {"details": "Id doesnot exists"}
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Id doesnot exists"
+        )
     return shipments[id]
 
 
