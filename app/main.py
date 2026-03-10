@@ -105,7 +105,15 @@ def get_shipment_field(field: str, id:int)->dict[str, Any]:
         field: shipments[id][field]
     }
 
-
+# Update
+@app.put("/shipment-update/{id}")
+def shipment_update(id: int, content: str, weight: float, status: str)->dict[str, Any]:
+    shipments[id]={
+        "content": content,
+        "weight": weight,
+        "status": status
+    }
+    return shipments[id]
 
 
 
