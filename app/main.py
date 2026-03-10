@@ -91,8 +91,6 @@ def get_query_params(id: int) -> dict[str, str | int]:
 # Request Body
 @app.post('/shipment')
 def submit_shipment(shipment: Shipment) ->dict[str, Any]:
-    if shipment.weight > 25:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Weight is less than 25")
     new_id = max(shipments.keys()) +1
     shipments[new_id]={
         "content": shipment.content,
