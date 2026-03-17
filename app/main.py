@@ -2,7 +2,7 @@
 from fastapi import FastAPI, status, HTTPException
 from scalar_fastapi import get_scalar_api_reference
 from typing import Any
-from schemas import Shipment
+from schemas import Shipment, ShipmentStatus, ShipmentRead, ShipmentCreate, ShipmentUpdate
 
 
 app = FastAPI()
@@ -66,7 +66,7 @@ def get_shipment_with_params(id: int) -> dict[str, str | int]:
 # @app.get("/items/{item_id}")
 
 # Query Parameters
-@app.get('/shipments', )
+@app.get('/shipments', response_model=ShipmentRead)
 def get_query_params(id: int) -> dict[str, str | int]:
     print("Sushil")
     if id not in shipments:
@@ -90,7 +90,7 @@ def get_query_params(id: int) -> dict[str, str | int]:
 
 # Request Body
 @app.post('/shipment')
-def submit_shipment(shipment: Shipment) ->dict[str, Any]:
+def submit_shipment(shipment: ShipmentCreate) ->dict[str, Any]:
     new_id = max(shipments.keys()) +1
     shipments[new_id]={
         "content": shipment.content,
@@ -117,7 +117,6 @@ def shipment_update(id: int, content: str, weight: float, status: str)->dict[str
     return shipments[id]
 
 
-
 # @app.patch('/shipment')
 # def patch_shipment(id: int, content: str | None=None, weight: float | None=None, status: str | None=None):
 #     shipment = shipments[id]
@@ -133,13 +132,11 @@ def shipment_update(id: int, content: str, weight: float, status: str)->dict[str
 #     return shipment
 
 
-# @app.patch('/shipment')
-# def patch_shipment(id: int, body: dict[str, Any]):
-#     shipment = shipments[id]
-#     # update the provide Fields
-#     shipment.update(body)
-#     shipments[id] = shipment
-#     return shipment
+@app.patch('/shipment', response_model=ShipmentRead)
+def patch_shipment(id: int, body: ShipmentUpdate):
+    # update the provide Fields
+    shipments[id].update(body)
+    return shipments[id]
 
 @app.delete("/shipment")
 def delete_shipment(id: int) ->dict[str, Any]:
